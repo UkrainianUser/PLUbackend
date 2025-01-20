@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express, { request, response } from "express";
 import cors from "cors";
 
 import PLUsRouter from "./routes/api/PLUs.js";
@@ -9,8 +9,9 @@ app.use(cors());
 
 app.use("/api/PLUs", PLUsRouter);
 
-app.get("/", (request, response) => {
-  response.send("<h2>Home page!</h2>");
+app.use((error, request, response, next) => {
+  const { status = 500, message = "Server error" } = error;
+  response.status(status).json({ message });
 });
 
-app.listen(3003, () => console.log("Server is running!"));
+export default app;
