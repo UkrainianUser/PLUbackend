@@ -1,7 +1,10 @@
 import express, { request, response } from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 
 import PLUsRouter from "./routes/api/PLUs.js";
+
+dotenv.config();
 
 const app = express();
 
