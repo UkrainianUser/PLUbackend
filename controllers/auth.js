@@ -44,9 +44,28 @@ export const login = ctrWrapper(async (request, response) => {
 
   console.log(payload);
 
-  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "23h" });
+  const token = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: "1w" });
+  await User.findByIdAndUpdate(user._id);
 
   response.json({
     token,
+  });
+});
+
+export const getCurrent = ctrWrapper(async (request, response) => {
+  const { email, name } = request.user;
+
+  response.json({
+    email,
+    name,
+  });
+});
+
+export const logout = ctrWrapper(async (request, response) => {
+  const { _id } = request.user;
+  await User.findByIdAndUpdate(_id, { token: "" });
+
+  response.json({
+    message: "Logout success",
   });
 });
